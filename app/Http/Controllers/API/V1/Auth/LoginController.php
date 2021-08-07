@@ -4,6 +4,9 @@ namespace App\Http\Controllers\API\V1\Auth;
 
 use App\Http\Controllers\API\V1\AuthController;
 use App\Http\Resources\UserResource;
+use App\Jobs\SendLoggedUserEmail;
+use App\Mail\UserLoggedMail;
+use Illuminate\Support\Facades\Mail;
 use Psr\Http\Message\ServerRequestInterface;
 
 class LoginController extends AuthController
@@ -29,6 +32,9 @@ class LoginController extends AuthController
                 ->firstOrFail()
         );
 
+        // Send email to user
+//        Mail::to($data['username'])->send(new UserLoggedMail());
+        dispatch(new SendLoggedUserEmail($data['username']));
         return $this->ok($tokenData);
     }
 }

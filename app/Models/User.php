@@ -50,7 +50,4 @@ class User extends Authenticatable
         return $this->hasOne(UserProfile::class, 'user_id');
     }
 
-    public function setPasswordAttribute($value) {
-        $this->attributes['password'] = Hash::make($value);
-    }
 }
